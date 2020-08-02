@@ -1,0 +1,81 @@
+/****************GENERAL****************/
+.line {
+  border-bottom: 1px solid var(--color-grey-light-4);
+  width: 90%;
+  margin: 3% auto;
+}
+
+/************INTRODUCTORY IMAGE************/
+.intro-image-container {
+  height: 45vh;
+  width: 100%;
+}
+
+.intro-image {
+  display: block;
+  margin: 0 auto;
+  max-width: 384px;
+  max-height: 216px;
+  border: 1px solid var(--color-grey-dark-4);
+  border-radius: 5px;
+  background-color: white;
+}
+
+.image-bullets {
+  display: flex;
+  justify-content: center;
+  margin: 2% 0;
+}
+
+.image-bullet {
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  background-color: grey;
+  margin: 0 0.6%;
+  cursor: pointer;
+}
+
+.image-bullet--active {
+  background-color: black;
+}
+
+/************PRODUCT SPECIFICATION************/
+.product-content__title {
+  text-align: center;
+  line-height: 2.2em;
+}
+
+.product-content__specification {
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 2.2em;
+}
+
+.specification__title {
+  line-height: 2.5em;
+}
+
+.specification__price {
+  line-height: 2em;
+}
+
+/*****************BUTTON*****************/
+.btn {
+  padding: 10px 20px;
+  box-shadow: 0px 0px 12px -2px rgba(0, 0, 0, 0.5);
+  background-color: rgb(255, 53, 53);
+  color: white;
+  font-size: 1.7em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background-color 0.6s ease;
+  border: transparent;
+  border-radius: 15px;
+  cursor: pointer;
+  display: block;
+  margin: 15px auto;
+}
+.btn:hover {
+  background-color: rgb(255, 0, 0);
+}

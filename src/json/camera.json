@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Máy Ảnh Canon 800D + Lens 18-55mm IS STM - Hàng Chính Hãng",
+    "sensory": "24.2MP APS-C",
+    "image_processor": "DIGIC 7",
+    "ISO": "Auto (100-25.600)",
+    "focus_system": "Dual Pixel ở chế độ Live View và 45 điểm nét cross-type",
+    " shutter_speed": "6 ảnh/giây",
+    "connectivity": "Wifi, NFC và Bluetooth",
+    "filming": null
+  },
+  {
+    "name": "Máy Ảnh Canon EOS 3000D + Lens EF-S 18 - 55mm III (Lê Bảo Minh) - Hàng Chính hãng",
+    "sensory": "18MP APS-C CMOS",
+    "image_processor": "DIGIC 4+",
+    "ISO": "100 - 6400 (Có thể mở rộng đến 12.800)",
+    "focus_system": "Hệ thống đo nét tiên tiến với 9 điểm",
+    " shutter_speed": "3 hình/ giây",
+    "connectivity": "Wifi, NFC và Bluetooth",
+    "filming": "Full HD 1080p 30 fps"
+  }
+]
