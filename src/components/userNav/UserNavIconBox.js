@@ -1,12 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 
-const UserNavIconBox = ({ children }) => {
-  const IconBox = styled.div`
-    position: relative;
-  `;
-
-  return <IconBox>{children}</IconBox>;
-};
+const UserNavIconBox = styled.div`
+  position: relative;
+`;
 
 export default UserNavIconBox;
