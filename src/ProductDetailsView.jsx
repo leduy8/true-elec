@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import productImg from "./img/sample-laptop.png";
 
 import {
   IntroImages,
@@ -24,7 +25,7 @@ class ProductDetailsView extends Component {
       <React.Fragment>
         <IntroImages>
           <IntroImageContainer>
-            <IntroImage src="img/sample-laptop.png" alt="Introductory" />
+            <IntroImage src={productImg} alt="Introductory" />
           </IntroImageContainer>
           <ImageBulletContainer>
             <ImageBulletActive></ImageBulletActive>

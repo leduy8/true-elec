@@ -1,8 +1,8 @@
 import styled from "styled-components";
-
 import colors from "./../../config/colors";
+import { Link } from "react-router-dom";
 
-const SideNavLink = styled.a`
+const SideNavLink = styled(Link)`
   &:link,
   &:visited {
     color: ${colors.greyDark1};
@@ -18,7 +18,7 @@ const SideNavLink = styled.a`
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    cursor: pointer;
+    text-decoration: none;
   }
 
   @media only screen and (max-width: 56.25em) {

@@ -7,8 +7,10 @@ import defaultStyles from "./config/defaultStyles";
 import NotFound from "./NotFound";
 import Header from "./Header";
 import SideBar from "./SideBar";
-import ProductsView from "./ProductsView";
+import LaptopsView from "./LaptopsView";
+import PhonesView from "./PhonesViews";
 import ProductDetailsView from "./ProductDetailsView";
+import PaymentView from "./PaymentView";
 
 function App() {
   return (
@@ -18,13 +20,21 @@ function App() {
         <SideBar />
 
         <MainView>
-          {/* <Switch>
-            <Route path="/products/:id" component={ProductDetailsView}></Route>
-            <Route path="/products" component={ProductsView}></Route>
-            <Route component={NotFound}></Route>
-            <Redirect to={NotFound}></Redirect>
-          </Switch> */}
-          <ProductDetailsView />
+          <Switch>
+            <Route
+              path="/products/laptops/:id"
+              component={ProductDetailsView}
+            ></Route>
+            <Route path="/products/laptops" component={LaptopsView}></Route>
+            <Route
+              path="/products/phones/:id"
+              component={ProductDetailsView}
+            ></Route>
+            <Route path="/products/phones" component={PhonesView}></Route>
+            <Route path="/payments" component={PaymentView}></Route>
+            <Route path="NotFound" component={NotFound}></Route>
+            <Redirect to="/NotFound"></Redirect>
+          </Switch>
         </MainView>
       </Content>
     </Container>

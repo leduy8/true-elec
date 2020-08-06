@@ -29,10 +29,10 @@ class Header extends Component {
 
         <UserNav>
           <UserNavIconBox>
-            <UserNavIcon component={FaShoppingCart} />
+            <UserNavIcon component={FaShoppingCart} to="/payments" />
           </UserNavIconBox>
           <UserNavIconBox>
-            <UserNavIcon component={FaBell} />
+            <UserNavIcon component={FaBell} to="/notifications" />
             <UserNavNotification numNotifications={13} />
           </UserNavIconBox>
           <UserNavUserContainer>

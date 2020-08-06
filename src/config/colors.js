@@ -10,4 +10,5 @@ export default {
   greyDark2: "#777",
   greyDark3: "#999",
   greyDark4: "rgb(180, 180, 180)",
+  greyDark5: "rgb(214, 214, 214)",
 };

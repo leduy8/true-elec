@@ -20,7 +20,7 @@ class SideBar extends Component {
       <Container>
         <SideNav>
           <SideNavItem>
-            <SideNavLink href="#">
+            <SideNavLink to="/">
               <SideNavIcon component={FaHome} />
               <span>Trang chủ</span>
             </SideNavLink>
@@ -36,20 +36,20 @@ class SideBar extends Component {
               renderSubNav={() => (
                 <SubSideNav>
                   <SubSideNavContent>
-                    <SideNavLink href="#">Laptop</SideNavLink>
+                    <SideNavLink to="/products/laptops">Laptop</SideNavLink>
                   </SubSideNavContent>
                   <SubSideNavContent>
-                    <SideNavLink href="#">Điện thoại</SideNavLink>
+                    <SideNavLink to="/products/phones">Điện thoại</SideNavLink>
                   </SubSideNavContent>
                   <SubSideNavContent>
-                    <SideNavLink href="#">Máy ảnh</SideNavLink>
+                    <SideNavLink to="/products/cameras">Máy ảnh</SideNavLink>
                   </SubSideNavContent>
                 </SubSideNav>
               )}
             />
           </SideNavItem>
           <SideNavItem>
-            <SideNavLink href="#">
+            <SideNavLink to="#">
               <SideNavIcon component={FaPiggyBank} />
               <span>Khuyến mãi</span>
             </SideNavLink>
