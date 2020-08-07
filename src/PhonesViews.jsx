@@ -6,7 +6,6 @@ import {
   FilterType,
   FilterSort,
   TypeItem,
-  TypeItemActive,
   SortSelect,
   SortSelectButton,
   SortSelectLabel,
@@ -42,11 +41,11 @@ class PhonesView extends Component {
         <h1>Phone</h1>
         <MainViewFilter>
           <FilterType>
-            <TypeItemActive>All</TypeItemActive>
-            <TypeItem>Dell</TypeItem>
-            <TypeItem>HP</TypeItem>
-            <TypeItem>Acer</TypeItem>
-            <TypeItem>Asus</TypeItem>
+            <TypeItem isActive={true}>All</TypeItem>
+            <TypeItem isActive={false}>Dell</TypeItem>
+            <TypeItem isActive={false}>HP</TypeItem>
+            <TypeItem isActive={false}>Acer</TypeItem>
+            <TypeItem isActive={false}>Asus</TypeItem>
           </FilterType>
           <FilterSort>
             <SortSelect>

@@ -2,7 +2,6 @@ export { default as MainViewFilter } from "./MainViewFilter";
 export { default as FilterType } from "./FilterType";
 export { default as FilterSort } from "./FilterSort";
 export { default as TypeItem } from "./TypeItem";
-export { default as TypeItemActive } from "./TypeItemActive";
 export { default as SortSelect } from "./SortSelect";
 export { default as SortSelectButton } from "./SortSelectButton";
 export { default as SortSelectLabel } from "./SortSelectLabel";

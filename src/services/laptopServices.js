@@ -1,7 +1,13 @@
 import http from "./httpServices";
 
-const getLaptops = () => http.get("http://localhost:3001/api/laptops");
+import config from "./../config.json";
+
+const getLaptops = () =>
+  http.get(config.hostUrl + "/api/devices?category=laptop");
+
+const getLaptopById = (id) => http.get(config.hostUrl + `/api/devices/${id}`);
 
 export default {
   get: getLaptops,
+  getById: getLaptopById,
 };

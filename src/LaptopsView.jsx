@@ -1,12 +1,11 @@
 import React, { Component } from "react";
+import _ from "lodash";
 
-import productImg from "./img/sample-laptop.png";
 import {
   MainViewFilter,
   FilterType,
   FilterSort,
   TypeItem,
-  TypeItemActive,
   SortSelect,
   SortSelectButton,
   SortSelectLabel,
@@ -18,66 +17,63 @@ import {
   ProductLine,
   ProductImage,
 } from "./components/products";
-
 import laptopServices from "./services/laptopServices";
 import stringManipulation from "./utils/stringManipulation";
-
-const laptops = [
-  {
-    id: 1,
-    image: productImg,
-    name:
-      "Laptop MSI gaming Laptop MSI gaming Laptop MSI gaming Laptop MSI gaming Laptop MSI gaming Laptop MSI gaming Laptop MSI gaming Laptop MSI gaming Laptop MSI gaming Laptop MSI gaming Laptop MSI gaming ",
-    price: 3250,
-  },
-  {
-    id: 2,
-    image: productImg,
-    name: "Laptop MSI gaming",
-    price: 32.5,
-  },
-  {
-    id: 3,
-    image: productImg,
-    name: "Laptop MSI gaming",
-    price: 32.5,
-  },
-  {
-    id: 4,
-    image: productImg,
-    name: "Laptop MSI gaming",
-    price: 3250,
-  },
-];
+import config from "./config.json";
 
 class ProductsView extends Component {
   state = {
     laptops: [],
+    vendors: [
+      {
+        name: "All",
+        isActive: true,
+      },
+    ],
   };
 
   async getLaptops() {
-    const laptops = await laptopServices.get();
-    this.setState({ laptops });
+    const { data } = await laptopServices.get();
+    const vendors = [
+      ...this.state.vendors,
+      ..._.uniq(data, (laptop) => laptop.vendor).map((laptop) => ({
+        name: laptop.vendor,
+        isActive: false,
+      })),
+    ];
+    this.setState({ laptops: data, vendors });
   }
 
   componentDidMount() {
     this.getLaptops();
   }
 
-  handleSortType = () => {};
+  handleSortType = (activeVendor) => {
+    const updatedVendors = [...this.state.vendors].map((vendor) => ({
+      ...vendor,
+      isActive: vendor.name === activeVendor.name,
+    }));
+    this.setState({ vendors: updatedVendors });
+  };
 
   render() {
-    console.log(this.state.laptops);
+    const { vendors, laptops } = this.state;
+    const activeVendor = vendors.find((vendor) => vendor.isActive);
+
     return (
       <React.Fragment>
         <h1>Laptop</h1>
         <MainViewFilter>
           <FilterType>
-            <TypeItemActive>All</TypeItemActive>
-            <TypeItem onClick={this.handleSortType}>Dell</TypeItem>
-            <TypeItem>HP</TypeItem>
-            <TypeItem>Acer</TypeItem>
-            <TypeItem>Asus</TypeItem>
+            {vendors &&
+              vendors.map((vendor) => (
+                <TypeItem
+                  key={vendor.name}
+                  isActive={vendor.isActive}
+                  type={vendor.name}
+                  onClick={() => this.handleSortType(vendor)}
+                />
+              ))}
           </FilterType>
           <FilterSort>
             <SortSelect>
@@ -125,31 +121,48 @@ class ProductsView extends Component {
           </FilterSort>
         </MainViewFilter>
         <Products>
-          {/* {laptops.map((laptop) => (
-            <Product to="/products/laptops/:id" key={laptop.id}>
-              <ProductImage src={productImg} alt="Sample laptop" />
-              <ProductLine></ProductLine>
-              <ProductTitle>
-                {stringManipulation.shortenWord(laptop.name)}
-              </ProductTitle>
-              <ProductPrice>
-                {stringManipulation.currencyFormat(laptop.price * 1000000)}đ
-              </ProductPrice>
-            </Product>
-          ))} */}
-          {this.state.laptops.data &&
-            this.state.laptops.data.map((laptop) => (
-              <Product to={`/products/laptops/${laptop._id}`} key={laptop._id}>
-                <ProductImage src={productImg} alt="Sample laptop" />
-                <ProductLine></ProductLine>
-                <ProductTitle>
-                  {stringManipulation.shortenWord(laptop.name)}
-                </ProductTitle>
-                <ProductPrice>
-                  {stringManipulation.currencyFormat(laptop.price * 1000000)}đ
-                </ProductPrice>
-              </Product>
-            ))}
+          {activeVendor.name === "All"
+            ? laptops.map((laptop) => (
+                <Product
+                  to={`/products/laptops/${laptop._id}`}
+                  key={laptop._id}
+                >
+                  <ProductImage
+                    src={config.hostUrl + laptop.image.url}
+                    alt="Sample laptop"
+                  />
+                  <ProductLine></ProductLine>
+                  <ProductTitle>
+                    {stringManipulation.shortenWord(laptop.name)}
+                  </ProductTitle>
+                  <ProductPrice>
+                    {stringManipulation.currencyFormat(laptop.price * 1000000)}đ
+                  </ProductPrice>
+                </Product>
+              ))
+            : laptops.map((laptop) =>
+                laptop.vendor === activeVendor.name ? (
+                  <Product
+                    to={`/products/laptops/${laptop._id}`}
+                    key={laptop._id}
+                  >
+                    <ProductImage
+                      src={config.hostUrl + laptop.image.url}
+                      alt="Sample laptop"
+                    />
+                    <ProductLine></ProductLine>
+                    <ProductTitle>
+                      {stringManipulation.shortenWord(laptop.name)}
+                    </ProductTitle>
+                    <ProductPrice>
+                      {stringManipulation.currencyFormat(
+                        laptop.price * 1000000
+                      )}
+                      đ
+                    </ProductPrice>
+                  </Product>
+                ) : null
+              )}
         </Products>
       </React.Fragment>
     );

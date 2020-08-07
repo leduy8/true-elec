@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import productImg from "./img/sample-laptop.png";
 
 import {
   IntroImages,
@@ -7,7 +6,6 @@ import {
   IntroImageContainer,
   ImageBulletContainer,
   ImageBullet,
-  ImageBulletActive,
   ProductContentContainer,
   ProductContentTitle,
   ProductContentSpecification,
@@ -15,40 +13,59 @@ import {
   SpecificationItem,
   SpecificationPrice,
 } from "./components/productDetails";
-
 import { SectionLine, Button } from "./components/common";
+import laptopServices from "./services/laptopServices";
+import config from "./config.json";
 
 class ProductDetailsView extends Component {
-  state = {};
+  state = {
+    deviceDetails: null,
+  };
+
+  getDeviceById = async () => {
+    const { id } = this.props.match.params;
+    const { data } = await laptopServices.getById(id);
+    this.setState({ deviceDetails: data });
+  };
+
+  componentDidMount() {
+    this.getDeviceById();
+  }
+
   render() {
+    const { deviceDetails } = this.state;
+
+    if (!deviceDetails) return null;
+
     return (
       <React.Fragment>
         <IntroImages>
           <IntroImageContainer>
-            <IntroImage src={productImg} alt="Introductory" />
+            <IntroImage
+              src={config.hostUrl + deviceDetails.image.url}
+              alt="Introductory"
+            />
           </IntroImageContainer>
-          <ImageBulletContainer>
-            <ImageBulletActive></ImageBulletActive>
-            <ImageBullet></ImageBullet>
-            <ImageBullet></ImageBullet>
-            <ImageBullet></ImageBullet>
-          </ImageBulletContainer>
+          {/* <ImageBulletContainer>
+            <ImageBullet isActive={true}></ImageBullet>
+            <ImageBullet isActive={false}></ImageBullet>
+            <ImageBullet isActive={false}></ImageBullet>
+            <ImageBullet isActive={false}></ImageBullet>
+          </ImageBulletContainer> */}
         </IntroImages>
         <SectionLine></SectionLine>
         <ProductContentContainer>
-          <ProductContentTitle>
-            Laptop gaming MSI CL69 - AMD Ryzen5 3550H 521GB
-          </ProductContentTitle>
+          <ProductContentTitle>{deviceDetails.name}</ProductContentTitle>
           <ProductContentSpecification>
             <SpecificationTitle>Thông số sản phẩm</SpecificationTitle>
-            <SpecificationItem>CPU: AMD Ryzen5 3550H</SpecificationItem>
-            <SpecificationItem>RAM: 8GB</SpecificationItem>
-            <SpecificationItem>Ổ cứng: 512GB SSD</SpecificationItem>
-            <SpecificationItem>VGA: NVIDIA GTX1650 4GB</SpecificationItem>
-            <SpecificationItem>Màn hình: 15.6inch FHD 120Hz</SpecificationItem>
-            <SpecificationItem>HĐH: Windows 10</SpecificationItem>
-            <SpecificationItem>Màu: Xám</SpecificationItem>
-            <SpecificationPrice>Giá: 32.590.000đ</SpecificationPrice>
+            {deviceDetails.details.map((detail, index) => (
+              <SpecificationItem key={index}>
+                {detail.key + ": " + detail.value}
+              </SpecificationItem>
+            ))}
+            <SpecificationPrice>
+              Giá: {deviceDetails.price * 1000000}đ
+            </SpecificationPrice>
           </ProductContentSpecification>
           <Button>Thêm vào giỏ hàng</Button>
         </ProductContentContainer>
