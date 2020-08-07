@@ -4,8 +4,8 @@ import {
   IntroImages,
   IntroImage,
   IntroImageContainer,
-  ImageBulletContainer,
-  ImageBullet,
+  // ImageBulletContainer,
+  // ImageBullet,
   ProductContentContainer,
   ProductContentTitle,
   ProductContentSpecification,
@@ -14,8 +14,9 @@ import {
   SpecificationPrice,
 } from "./components/productDetails";
 import { SectionLine, Button } from "./components/common";
-import laptopServices from "./services/laptopServices";
+import deviceServices from "./services/deviceServices";
 import config from "./config.json";
+import stringManipulation from "./utils/stringManipulation";
 
 class ProductDetailsView extends Component {
   state = {
@@ -24,7 +25,7 @@ class ProductDetailsView extends Component {
 
   getDeviceById = async () => {
     const { id } = this.props.match.params;
-    const { data } = await laptopServices.getById(id);
+    const { data } = await deviceServices.getById(id);
     this.setState({ deviceDetails: data });
   };
 
@@ -60,11 +61,15 @@ class ProductDetailsView extends Component {
             <SpecificationTitle>Thông số sản phẩm</SpecificationTitle>
             {deviceDetails.details.map((detail, index) => (
               <SpecificationItem key={index}>
-                {detail.key + ": " + detail.value}
+                {stringManipulation.reformatString(detail.key) +
+                  ": " +
+                  detail.value}
               </SpecificationItem>
             ))}
             <SpecificationPrice>
-              Giá: {deviceDetails.price * 1000000}đ
+              Giá:{" "}
+              {stringManipulation.currencyFormat(deviceDetails.price * 1000000)}
+              đ
             </SpecificationPrice>
           </ProductContentSpecification>
           <Button>Thêm vào giỏ hàng</Button>

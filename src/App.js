@@ -4,11 +4,11 @@ import styled from "styled-components";
 import colors from "./config/colors";
 import defaultStyles from "./config/defaultStyles";
 
+import Home from "./Home";
 import NotFound from "./NotFound";
 import Header from "./Header";
 import SideBar from "./SideBar";
-import LaptopsView from "./LaptopsView";
-import PhonesView from "./PhonesViews";
+import ProductsViewFC from "./ProductsViewFC";
 import ProductDetailsView from "./ProductDetailsView";
 import PaymentView from "./PaymentView";
 
@@ -22,17 +22,16 @@ function App() {
         <MainView>
           <Switch>
             <Route
-              path="/products/laptops/:id"
+              path="/products/:category/:id"
               component={ProductDetailsView}
             ></Route>
-            <Route path="/products/laptops" component={LaptopsView}></Route>
             <Route
-              path="/products/phones/:id"
-              component={ProductDetailsView}
+              path="/products/:category"
+              render={(props) => <ProductsViewFC {...props} />}
             ></Route>
-            <Route path="/products/phones" component={PhonesView}></Route>
             <Route path="/payments" component={PaymentView}></Route>
-            <Route path="NotFound" component={NotFound}></Route>
+            <Route path="/NotFound" component={NotFound}></Route>
+            <Route exact path="/" component={Home} />
             <Redirect to="/NotFound"></Redirect>
           </Switch>
         </MainView>

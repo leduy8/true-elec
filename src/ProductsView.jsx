@@ -17,35 +17,43 @@ import {
   ProductLine,
   ProductImage,
 } from "./components/products";
-import laptopServices from "./services/laptopServices";
+import deviceServices from "./services/deviceServices";
 import stringManipulation from "./utils/stringManipulation";
 import config from "./config.json";
 
 class ProductsView extends Component {
-  state = {
-    laptops: [],
-    vendors: [
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      devices: [],
+      vendors: [
+        {
+          name: "All",
+          isActive: true,
+        },
+      ],
+    };
+  }
+
+  async getDevices(category) {
+    const { data } = await deviceServices.get(category);
+    const vendors = [
       {
         name: "All",
         isActive: true,
       },
-    ],
-  };
-
-  async getLaptops() {
-    const { data } = await laptopServices.get();
-    const vendors = [
-      ...this.state.vendors,
-      ..._.uniq(data, (laptop) => laptop.vendor).map((laptop) => ({
-        name: laptop.vendor,
+      ..._.uniq(data, (device) => device.vendor).map((device) => ({
+        name: device.vendor,
         isActive: false,
       })),
     ];
-    this.setState({ laptops: data, vendors });
+    this.setState({ devices: data, vendors });
   }
 
   componentDidMount() {
-    this.getLaptops();
+    const { category } = this.props.match.params;
+    this.getDevices(category.slice(0, category.length - 1));
   }
 
   handleSortType = (activeVendor) => {
@@ -57,7 +65,7 @@ class ProductsView extends Component {
   };
 
   render() {
-    const { vendors, laptops } = this.state;
+    const { vendors, devices } = this.state;
     const activeVendor = vendors.find((vendor) => vendor.isActive);
 
     return (
@@ -122,41 +130,41 @@ class ProductsView extends Component {
         </MainViewFilter>
         <Products>
           {activeVendor.name === "All"
-            ? laptops.map((laptop) => (
+            ? devices.map((device) => (
                 <Product
-                  to={`/products/laptops/${laptop._id}`}
-                  key={laptop._id}
+                  to={`/products/laptops/${device._id}`}
+                  key={device._id}
                 >
                   <ProductImage
-                    src={config.hostUrl + laptop.image.url}
+                    src={config.hostUrl + device.image.url}
                     alt="Sample laptop"
                   />
                   <ProductLine></ProductLine>
                   <ProductTitle>
-                    {stringManipulation.shortenWord(laptop.name)}
+                    {stringManipulation.shortenWord(device.name)}
                   </ProductTitle>
                   <ProductPrice>
-                    {stringManipulation.currencyFormat(laptop.price * 1000000)}đ
+                    {stringManipulation.currencyFormat(device.price * 1000000)}đ
                   </ProductPrice>
                 </Product>
               ))
-            : laptops.map((laptop) =>
-                laptop.vendor === activeVendor.name ? (
+            : devices.map((device) =>
+                device.vendor === activeVendor.name ? (
                   <Product
-                    to={`/products/laptops/${laptop._id}`}
-                    key={laptop._id}
+                    to={`/products/laptops/${device._id}`}
+                    key={device._id}
                   >
                     <ProductImage
-                      src={config.hostUrl + laptop.image.url}
+                      src={config.hostUrl + device.image.url}
                       alt="Sample laptop"
                     />
                     <ProductLine></ProductLine>
                     <ProductTitle>
-                      {stringManipulation.shortenWord(laptop.name)}
+                      {stringManipulation.shortenWord(device.name)}
                     </ProductTitle>
                     <ProductPrice>
                       {stringManipulation.currencyFormat(
-                        laptop.price * 1000000
+                        device.price * 1000000
                       )}
                       đ
                     </ProductPrice>
