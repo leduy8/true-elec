@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import colors from "./config/colors";
 import logo from "./img/logo.png";
@@ -14,38 +14,46 @@ import {
   UserNavUserName,
   UserNavUserPhoto,
 } from "./components/userNav";
+import AppContext from "./context/AppContext";
 
-class Header extends Component {
-  render() {
-    return (
-      <Container>
-        <Logo src={logo} alt="Logo" />
-        <SearchBox>
-          <SearchInput type="text" placeholder="Bạn muốn tìm gì?" />
-          <SearchButton>
-            <GoSearch />
-          </SearchButton>
-        </SearchBox>
-
-        <UserNav>
-          <UserNavIconBox>
-            <UserNavIcon component={FaShoppingCart} to="/payments" />
-          </UserNavIconBox>
-          <UserNavIconBox>
-            <UserNavIcon component={FaBell} to="/notifications" />
-            <UserNavNotification numNotifications={13} />
-          </UserNavIconBox>
-          <UserNavUserContainer>
-            <UserNavUserPhoto src={userImg} alt="User photo" />
-            <UserNavUserName name="Jonas" />
-          </UserNavUserContainer>
-        </UserNav>
-      </Container>
-    );
+function countItems(data) {
+  let count = 0;
+  for (const item of data) {
+    count += item.quantity;
   }
+  return count;
 }
 
-export default Header;
+function Header() {
+  const { cart } = useContext(AppContext);
+
+  return (
+    <Container>
+      <Logo src={logo} alt="Logo" />
+      <SearchBox>
+        <SearchInput type="text" placeholder="Bạn muốn tìm gì?" />
+        <SearchButton>
+          <GoSearch />
+        </SearchButton>
+      </SearchBox>
+
+      <UserNav>
+        <UserNavIconBox>
+          <UserNavIcon component={FaShoppingCart} to="/payments" />
+          <UserNavNotification numNotifications={countItems(cart.data)} />
+        </UserNavIconBox>
+        {/* <UserNavIconBox>
+            <UserNavIcon component={FaBell} to="/notifications" />
+            <UserNavNotification numNotifications={13} />
+          </UserNavIconBox> */}
+        <UserNavUserContainer>
+          <UserNavUserPhoto src={userImg} alt="User photo" />
+          <UserNavUserName name="Jonas" />
+        </UserNavUserContainer>
+      </UserNav>
+    </Container>
+  );
+}
 
 const Container = styled.h1`
   font-size: 1.4rem;
@@ -131,3 +139,5 @@ const SearchButton = styled.button`
     transform: translateY(2px);
   }
 `;
+
+export default Header;

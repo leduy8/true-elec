@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import {
   IntroImages,
@@ -17,66 +17,73 @@ import { SectionLine, Button } from "./components/common";
 import deviceServices from "./services/deviceServices";
 import config from "./config.json";
 import stringManipulation from "./utils/stringManipulation";
+import AppContext from "./context/AppContext";
 
-class ProductDetailsView extends Component {
-  state = {
-    deviceDetails: null,
-  };
+function ProductDetailsView({ match }) {
+  const [deviceDetails, setDeviceDetails] = useState(null);
+  const { cart } = useContext(AppContext);
 
-  getDeviceById = async () => {
-    const { id } = this.props.match.params;
+  const getDeviceById = async () => {
+    const { id } = match.params;
     const { data } = await deviceServices.getById(id);
-    this.setState({ deviceDetails: data });
+    setDeviceDetails(data);
   };
 
-  componentDidMount() {
-    this.getDeviceById();
-  }
+  useEffect(() => {
+    getDeviceById();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  render() {
-    const { deviceDetails } = this.state;
+  const handleAddToCart = (event) => {
+    event.preventDefault();
 
-    if (!deviceDetails) return null;
+    cart.handler.addToCart({ deviceId: deviceDetails._id, quantity: 1 });
+  };
 
-    return (
-      <React.Fragment>
-        <IntroImages>
-          <IntroImageContainer>
-            <IntroImage
-              src={config.hostUrl + deviceDetails.image.url}
-              alt="Introductory"
-            />
-          </IntroImageContainer>
-          {/* <ImageBulletContainer>
+  return (
+    <>
+      {deviceDetails ? (
+        <React.Fragment>
+          <IntroImages>
+            <IntroImageContainer>
+              <IntroImage
+                src={config.hostUrl + deviceDetails.image.url}
+                alt="Introductory"
+              />
+            </IntroImageContainer>
+            {/* <ImageBulletContainer>
             <ImageBullet isActive={true}></ImageBullet>
             <ImageBullet isActive={false}></ImageBullet>
             <ImageBullet isActive={false}></ImageBullet>
             <ImageBullet isActive={false}></ImageBullet>
           </ImageBulletContainer> */}
-        </IntroImages>
-        <SectionLine></SectionLine>
-        <ProductContentContainer>
-          <ProductContentTitle>{deviceDetails.name}</ProductContentTitle>
-          <ProductContentSpecification>
-            <SpecificationTitle>Thông số sản phẩm</SpecificationTitle>
-            {deviceDetails.details.map((detail, index) => (
-              <SpecificationItem key={index}>
-                {stringManipulation.reformatString(detail.key) +
-                  ": " +
-                  detail.value}
-              </SpecificationItem>
-            ))}
-            <SpecificationPrice>
-              Giá:{" "}
-              {stringManipulation.currencyFormat(deviceDetails.price * 1000000)}
-              đ
-            </SpecificationPrice>
-          </ProductContentSpecification>
-          <Button>Thêm vào giỏ hàng</Button>
-        </ProductContentContainer>
-      </React.Fragment>
-    );
-  }
+          </IntroImages>
+          <SectionLine></SectionLine>
+          <ProductContentContainer>
+            <ProductContentTitle>{deviceDetails.name}</ProductContentTitle>
+            <ProductContentSpecification>
+              <SpecificationTitle>Thông số sản phẩm</SpecificationTitle>
+              {deviceDetails.details.map((detail, index) => (
+                <SpecificationItem key={index}>
+                  {stringManipulation.reformatString(detail.key) +
+                    ": " +
+                    detail.value}
+                </SpecificationItem>
+              ))}
+              <SpecificationPrice>
+                Giá:{" "}
+                {stringManipulation.currencyFormat(
+                  deviceDetails.price * 1000000
+                )}
+                đ
+              </SpecificationPrice>
+            </ProductContentSpecification>
+            <Button onClick={handleAddToCart}>Thêm vào giỏ hàng</Button>
+          </ProductContentContainer>
+        </React.Fragment>
+      ) : null}
+    </>
+  );
 }
 
 export default ProductDetailsView;

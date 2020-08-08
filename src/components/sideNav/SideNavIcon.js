@@ -16,7 +16,7 @@ const SideNavIcon = ({ component: Component }) => {
     }
   `;
 
-  return <Icon />;
+  return React.createElement(Icon);
 };
 
 export default SideNavIcon;

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { FaHome, FaPhone, FaPiggyBank } from "react-icons/fa";
@@ -14,54 +14,52 @@ import {
   SubSideNavContent,
 } from "./components/sideNav";
 
-class SideBar extends Component {
-  render() {
-    return (
-      <Container>
-        <SideNav>
-          <SideNavItem>
-            <SideNavLink to="/">
-              <SideNavIcon component={FaHome} />
-              <span>Trang chủ</span>
-            </SideNavLink>
-          </SideNavItem>
-          <SideNavItem>
-            <SideNavDropdown
-              renderTitle={() => (
-                <>
-                  <SideNavIcon component={FaPhone} />
-                  Sản phẩm
-                </>
-              )}
-              renderSubNav={() => (
-                <SubSideNav>
-                  <SubSideNavContent>
-                    <SideNavLink to="/products/laptops">Laptop</SideNavLink>
-                  </SubSideNavContent>
-                  <SubSideNavContent>
-                    <SideNavLink to="/products/phones">Điện thoại</SideNavLink>
-                  </SubSideNavContent>
-                  <SubSideNavContent>
-                    <SideNavLink to="/products/cameras">Máy ảnh</SideNavLink>
-                  </SubSideNavContent>
-                </SubSideNav>
-              )}
-            />
-          </SideNavItem>
-          <SideNavItem>
-            <SideNavLink to="#">
-              <SideNavIcon component={FaPiggyBank} />
-              <span>Khuyến mãi</span>
-            </SideNavLink>
-          </SideNavItem>
-        </SideNav>
+function SideBar() {
+  return (
+    <Container>
+      <SideNav>
+        <SideNavItem>
+          <SideNavLink to="/">
+            <HomeIcon />
+            <span>Trang chủ</span>
+          </SideNavLink>
+        </SideNavItem>
+        <SideNavItem>
+          <SideNavDropdown
+            renderTitle={() => (
+              <>
+                <ProductIcon />
+                Sản phẩm
+              </>
+            )}
+            renderSubNav={() => (
+              <SubSideNav>
+                <SubSideNavContent>
+                  <SideNavLink to="/products/laptops">Laptop</SideNavLink>
+                </SubSideNavContent>
+                <SubSideNavContent>
+                  <SideNavLink to="/products/phones">Điện thoại</SideNavLink>
+                </SubSideNavContent>
+                <SubSideNavContent>
+                  <SideNavLink to="/products/cameras">Máy ảnh</SideNavLink>
+                </SubSideNavContent>
+              </SubSideNav>
+            )}
+          />
+        </SideNavItem>
+        <SideNavItem>
+          <SideNavLink to="#">
+            <SideNavIcon component={FaPiggyBank} />
+            <span>Khuyến mãi</span>
+          </SideNavLink>
+        </SideNavItem>
+      </SideNav>
 
-        <SideNavCopyright>
-          &copy; 2020 by TrueElec. All rights reserved.
-        </SideNavCopyright>
-      </Container>
-    );
-  }
+      <SideNavCopyright>
+        &copy; 2020 by TrueElec. All rights reserved.
+      </SideNavCopyright>
+    </Container>
+  );
 }
 
 export default SideBar;
@@ -84,4 +82,32 @@ const Container = styled.nav`
   -ms-flex-pack: justify;
   justify-content: space-between;
   height: 90vh;
+`;
+
+const HomeIcon = styled(FaHome)`
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-right: 2rem;
+  fill: currentColor;
+
+  @media only screen and (max-width: 37.5em) {
+    margin-right: 0;
+    margin-bottom: 0.7rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+`;
+
+const ProductIcon = styled(FaPhone)`
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-right: 2rem;
+  fill: currentColor;
+
+  @media only screen and (max-width: 37.5em) {
+    margin-right: 0;
+    margin-bottom: 0.7rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;

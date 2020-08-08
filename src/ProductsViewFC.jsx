@@ -24,7 +24,7 @@ import {
 const ProductsViewFC = ({ match }) => {
   const getViewTitle = () => {
     return stringManipulation.reformatString(
-      stringManipulation.removeS(match.params.category)
+      stringManipulation.removePlural(match.params.category)
     );
   };
 
@@ -66,9 +66,19 @@ const ProductsViewFC = ({ match }) => {
     setVendors(updatedVendors);
   };
 
+  const handleSortPrice = (data, type = "desc") => {
+    let sortedData = [];
+    if (type === "asc") {
+      sortedData = [...sortedData, ...data.sort((a, b) => a.price - b.price)];
+    } else {
+      sortedData = [...sortedData, ...data.sort((a, b) => b.price - a.price)];
+    }
+    setDevices(sortedData);
+  };
+
   useEffect(() => {
     const { category } = match.params;
-    getDevices(category.slice(0, category.length - 1));
+    getDevices(stringManipulation.removePlural(category));
   }, [match]);
 
   const activeVendor = vendors.find((vendor) => vendor.isActive);
@@ -92,7 +102,11 @@ const ProductsViewFC = ({ match }) => {
         <FilterSort>
           <SortSelect>
             <SortSelectLabel htmlFor="sortBy"></SortSelectLabel>
-            <SortSelectButton name="sortBy" id="sortBy">
+            <SortSelectButton
+              name="sortBy"
+              id="sortBy"
+              onChange={(event) => handleSortPrice(devices, event.target.value)}
+            >
               <SortSelectOption value="all" defaultValue>
                 Giá tiền
               </SortSelectOption>

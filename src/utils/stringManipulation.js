@@ -24,7 +24,7 @@ const reformatString = (string) => {
   return newString.charAt(0).toUpperCase() + newString.slice(1);
 };
 
-const removeS = (string) => {
+const removePlural = (string) => {
   return string.slice(0, -1);
 };
 
@@ -40,5 +40,5 @@ export default {
   currencyFormat,
   reformatString,
   formatType,
-  removeS,
+  removePlural,
 };

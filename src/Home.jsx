@@ -39,10 +39,13 @@ class Home extends Component {
         <BestSellerProducts>
           {devices &&
             devices.slice(0, 6).map((device) => (
-              <Product to={`/products/laptops/${device._id}`} key={device._id}>
+              <Product
+                to={`/products/${device.category}s/${device._id}`}
+                key={device._id}
+              >
                 <ProductImage
                   src={config.hostUrl + device.image.url}
-                  alt="Sample laptop"
+                  alt="Sample device"
                 />
                 <ProductLine></ProductLine>
                 <ProductTitle>

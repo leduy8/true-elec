@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import styled from "styled-components";
 import colors from "./config/colors";
 import defaultStyles from "./config/defaultStyles";
 
+import AppContext from "./context/AppContext";
 import Home from "./Home";
 import NotFound from "./NotFound";
 import Header from "./Header";
@@ -11,32 +12,74 @@ import SideBar from "./SideBar";
 import ProductsViewFC from "./ProductsViewFC";
 import ProductDetailsView from "./ProductDetailsView";
 import PaymentView from "./PaymentView";
+import SuccessView from "./SuccessView";
 
 function App() {
-  return (
-    <Container>
-      <Header />
-      <Content>
-        <SideBar />
+  const [cart, setCart] = useState([]);
 
-        <MainView>
-          <Switch>
-            <Route
-              path="/products/:category/:id"
-              component={ProductDetailsView}
-            ></Route>
-            <Route
-              path="/products/:category"
-              render={(props) => <ProductsViewFC {...props} />}
-            ></Route>
-            <Route path="/payments" component={PaymentView}></Route>
-            <Route path="/NotFound" component={NotFound}></Route>
-            <Route exact path="/" component={Home} />
-            <Redirect to="/NotFound"></Redirect>
-          </Switch>
-        </MainView>
-      </Content>
-    </Container>
+  const handleAddToCart = (item) => {
+    const existedItem = cart.find(
+      (existedDevice) => existedDevice.deviceId === item.deviceId
+    );
+
+    let updatedCart;
+    if (existedItem) {
+      updatedCart = [...cart];
+      const index = cart.indexOf(existedItem);
+      existedItem.quantity++;
+      updatedCart[index] = existedItem;
+    } else {
+      updatedCart = [...cart, item];
+    }
+
+    setCart(updatedCart);
+  };
+
+  const handleDeleteFromCart = (deletedItem) => {
+    const updatedCart = cart.filter((item) => item !== deletedItem);
+    setCart(updatedCart);
+  };
+
+  const handleEmptyCart = () => setCart([]);
+
+  return (
+    <AppContext.Provider
+      value={{
+        cart: {
+          data: cart,
+          handler: {
+            addToCart: handleAddToCart,
+            deleteFromCart: handleDeleteFromCart,
+            emptyCart: handleEmptyCart,
+          },
+        },
+      }}
+    >
+      <Container>
+        <Header />
+        <Content>
+          <SideBar />
+
+          <MainView>
+            <Switch>
+              <Route
+                path="/products/:category/:id"
+                component={ProductDetailsView}
+              ></Route>
+              <Route
+                path="/products/:category"
+                render={(props) => <ProductsViewFC {...props} />}
+              ></Route>
+              <Route path="/payments/success" component={SuccessView}></Route>
+              <Route path="/payments" component={PaymentView}></Route>
+              <Route path="/NotFound" component={NotFound}></Route>
+              <Route exact path="/" component={Home} />
+              <Redirect to="/NotFound"></Redirect>
+            </Switch>
+          </MainView>
+        </Content>
+      </Container>
+    </AppContext.Provider>
   );
 }
 
