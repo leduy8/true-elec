@@ -12,3 +12,4 @@ export { default as ProductImage } from "./ProductImage";
 export { default as ProductLine } from "./ProductLine";
 export { default as ProductTitle } from "./ProductTitle";
 export { default as ProductPrice } from "./ProductPrice";
+export { default as NotFoundProduct } from "./NotFoundProduct";

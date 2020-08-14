@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { FaHome, FaPhone, FaPiggyBank } from "react-icons/fa";
+import { FaHome, FaMobileAlt, FaPiggyBank } from "react-icons/fa";
 
 import {
   SideNav,
@@ -98,7 +98,7 @@ const HomeIcon = styled(FaHome)`
   }
 `;
 
-const ProductIcon = styled(FaPhone)`
+const ProductIcon = styled(FaMobileAlt)`
   width: 1.75rem;
   height: 1.75rem;
   margin-right: 2rem;
